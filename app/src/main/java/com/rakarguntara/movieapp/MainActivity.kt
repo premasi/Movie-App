@@ -1,8 +1,11 @@
 package com.rakarguntara.movieapp
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -31,6 +34,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -90,23 +94,30 @@ fun MyApp(content: @Composable () -> Unit){
 fun MyContent(movieList: List<String> = listOf(
     "Agak Lain", "AsepTheDragon", "AsepPencilgon", "Gundam Seed", "Gundam", "Gundam Seed Destiny", "Kyoukai no Kanata"
 )){
+    val context = LocalContext.current
     Column(modifier = Modifier
         .padding(horizontal = 16.dp)
     ){
         LazyColumn{
             items(items = movieList){
-                MovieItem(it)
+                MovieItem(it){movie ->
+                    Log.d("Asep Click", "MyContent: $movie")
+                    Toast.makeText(context, movie, Toast.LENGTH_SHORT).show()
+                }
             }
         }
     }
 }
 
 @Composable
-fun MovieItem(title: String){
+fun MovieItem(title: String, onItemClick: (String) -> Unit = {}){
     Card(modifier = Modifier
         .fillMaxWidth()
         .height(120.dp)
-        .padding(bottom = 8.dp),
+        .padding(bottom = 8.dp)
+        .clickable {
+            onItemClick(title)
+        },
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         shape = RoundedCornerShape(10.dp)
     ){
