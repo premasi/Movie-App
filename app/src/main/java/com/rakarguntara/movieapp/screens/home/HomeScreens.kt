@@ -79,10 +79,10 @@ fun MyContent(
     ){
         LazyColumn{
             items(items = movieList){
-                MovieItem(it){movie ->
-                    Log.d("Asep Click", "MyContent: $movie")
-                    navController.navigate(MovieScreens.DetailScreen.name)
-                    Toast.makeText(context, movie, Toast.LENGTH_SHORT).show()
+                MovieItem(it){movieTitle ->
+                    Log.d("Asep Click", "MyContent: $movieTitle")
+                    navController.navigate(MovieScreens.DetailScreen.name+"/$movieTitle")
+                    Toast.makeText(context, movieTitle, Toast.LENGTH_SHORT).show()
                 }
             }
         }
